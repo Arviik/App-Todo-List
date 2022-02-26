@@ -12,7 +12,9 @@ public class Main {
         try {
             BDD = new BDD();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("/!\\Base de donnée Non Installé./!\\");
+            System.exit(404);
         }
     }
 
@@ -76,6 +78,7 @@ public class Main {
         while (running){
             int rep;
             System.out.println("\n--------App Todo-List--------");
+            System.out.println("Profil : "+user.getNom()+" "+user.getPrenom());
             System.out.println("1.Modifier mon compte");
             System.out.println("2.Supprimer mon compte");
             System.out.println("3.Déconnection");
