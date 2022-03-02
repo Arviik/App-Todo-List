@@ -1,5 +1,6 @@
 import BDD.BDD;
 import user.User;
+import user.Task;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -7,6 +8,7 @@ public class Main {
     private static final Scanner sc = new Scanner(System.in);
     private static BDD BDD = null;
     private static User user = new User("","");
+    private static Task task =new Task(0);
 
     static {
         try {
@@ -82,6 +84,8 @@ public class Main {
             System.out.println("1.Modifier mon compte");
             System.out.println("2.Supprimer mon compte");
             System.out.println("3.Déconnection");
+            System.out.println("4.Affichage de mes tache");
+            System.out.println("5.Ajout de tache");
             System.out.print(">");
             rep = getInt();
             sc.nextLine();
@@ -92,6 +96,8 @@ public class Main {
                     user = new User("","");
                     user.setId_compte(0);
                 }
+                case 4 -> Affichage();
+                case 5 -> Ajout_Tache();
                 default -> System.out.println("Veuillez enter un nombre parmis 1, 2 ou 3.");
             }
             running = user.getId_compte() != 0;
@@ -163,6 +169,63 @@ public class Main {
         }
     }
 
+    public static void Ajout_Tache() throws SQLException{
+        boolean running = true;
+        System.out.print("Entrer le libelle : ");
+        String libelle = sc.nextLine();
+        System.out.print("Entrer la description : ");
+        String description = sc.nextLine();
+        System.out.print("Entrer la difficulte : ");
+        int difficulte = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Entrer votre date_debut : ");
+        String date_debut = sc.nextLine();
+        System.out.print("Entrer votre date_fin : ");
+        String date_fin = sc.nextLine();
+        System.out.print("Entrer votre date_butoir : ");
+        String date_butoir = sc.nextLine();
+        task = new Task(libelle, description, difficulte, date_debut, date_fin, date_butoir, BDD);
+        System.out.println("Ajout de tache Effectué.");
+    }
+
+    public static void Affichage() throws SQLException{
+        task = new Task(user.getId_compte());
+        task.Affiche(BDD);
+        System.out.println("\n--------App Todo-List--------");
+        System.out.println("1.libelle : "+task.getLibelle());
+        System.out.println("2.description : "+task.getDescription());
+        System.out.println("3.difficulte : "+task.getDifficulte());
+        System.out.println("4.date_debut : "+task.getDate_debut());
+        System.out.println("5.date_fin : "+task.getDate_fin());
+        System.out.println("6.date_butoir : "+task.getDate_butoir());
+
+    }
+
+    public static void Assigner_tache() throws SQLException{
+        task.setRef_compte(0);
+        task.Affiche_All_Tache(BDD);
+        System.out.println("\n--------App Todo-List--------");
+        System.out.println("1.Tache numero : "+task.getId_tache());
+        System.out.println("2.libelle : "+task.getLibelle());
+        System.out.println("3.description : "+task.getDescription());
+        System.out.println("4.difficulte : "+task.getDifficulte());
+        System.out.println("5.date_debut : "+task.getDate_debut());
+        System.out.println("6.date_fin : "+task.getDate_fin());
+        System.out.println("7.date_butoir : "+task.getDate_butoir());
+        if(task.getRef_compte() == 0){
+            System.out.println("8.Actuellement assigner a aucun utilisateur");
+        }
+        else {
+        System.out.println("8.Actuellement assigner a l'utilisateur : "+task.getRef_compte());
+        }
+
+        System.out.print("Entrer le numero de la tache a assigner : ");
+        int ref_tache= sc.nextInt();
+        System.out.print("Entrer le numero de l'utilisateur qui devra la realiser : ");
+        int ref_compte = sc.nextInt();
+        task = new Task(ref_tache,ref_compte);
+        task.Assigner_tache(BDD);
+    }
     public static int getInt(){
         while (!sc.hasNextInt()){
             sc.next();
@@ -171,4 +234,6 @@ public class Main {
         }
         return sc.nextInt();
     }
+
+
 }
