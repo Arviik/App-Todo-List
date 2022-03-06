@@ -74,6 +74,7 @@ public class Task {
     public void Affiche_All_Tache(BDD BDD) throws SQLException {
         PreparedStatement req = BDD.getCnx().prepareStatement("SELECT * FROM tache LEFT JOIN gere ON tache.id_tache = gere.ref_tache LEFT JOIN compte ON gere.ref_compte = compte.id_compte");
         ResultSet monResultat = req.executeQuery();
+
         while(monResultat.next()){
             System.out.println("\n--------App Todo-List--------");
             System.out.println("0.Tache numero : "+ monResultat.getInt("id_tache"));
@@ -106,7 +107,31 @@ public class Task {
         }
     }
 
+    public void rechercheTache(BDD BDD, String filtre, String terme) throws SQLException{
+        PreparedStatement req = BDD.getCnx().prepareStatement("SELECT * FROM tache WHERE "+filtre+" LIKE ? ");
 
+        req.setString(1,"%"+terme+"%");
+        System.out.println(filtre);
+        System.out.println(terme);
+        ResultSet monResultat = req.executeQuery();
+        while (monResultat.next()){
+            System.out.println("\n--------App Todo-List--------");
+            System.out.println("1.libelle : "+monResultat.getString("libelle"));
+            System.out.println("2.description : "+monResultat.getString("description"));
+            System.out.println("3.difficulte : "+ monResultat.getInt("difficulte"));
+            System.out.println("4.date_debut : "+monResultat.getString("date_debut"));
+            System.out.println("5.date_fin : "+monResultat.getString("date_fin"));
+            System.out.println("6.date_butoir : "+monResultat.getString("date_butoir"));
+            setId_tache(monResultat.getInt(1));
+            setLibelle(monResultat.getString(2));
+            setDescription(monResultat.getString(3));
+            setDifficulte(monResultat.getInt(4));
+            setDate_debut(monResultat.getString(5));
+            setDate_fin(monResultat.getString(6));
+            setDate_butoir(monResultat.getString(7));
+        }
+        System.out.println("Fin du filtrage");
+    }
 
     public int getId_tache() {
         return id_tache;

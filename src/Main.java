@@ -99,7 +99,8 @@ public class Main {
                 }
                 case 4 -> Affichage();
                 case 5 -> Ajout_Tache();
-                case 6 -> Assigner_tache();
+                case 7 -> recherche();
+                case 8 -> Assigner_tache();
                 default -> System.out.println("Veuillez enter un nombre parmis 1, 2 ou 3.");
             }
             running = user.getId_compte() != 0;
@@ -166,7 +167,6 @@ public class Main {
                     user.Modification(BDD);
                     running = false;
                 }
-
                 default -> System.out.println("Veuillez enter un nombre parmis 1, 2, 3, 4 ou 5.");
             }
         }
@@ -194,8 +194,15 @@ public class Main {
     public static void Affichage() throws SQLException{
         task = new Task(user.getId_compte());
         task.Affiche(BDD);
+    }
 
-
+    public static void recherche() throws SQLException{
+        task = new Task(user.getId_compte());
+        System.out.print("Entrer le filtre : ");
+        String filtre = sc.next();
+        System.out.print("Entrer le terme de filtrage: ");
+        String terme = sc.next();
+        task.rechercheTache(BDD, filtre, terme);
     }
 
     public static void Assigner_tache() throws SQLException{
