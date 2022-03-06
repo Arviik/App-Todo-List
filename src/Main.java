@@ -86,6 +86,7 @@ public class Main {
             System.out.println("3.Déconnection");
             System.out.println("4.Affichage de mes tache");
             System.out.println("5.Ajout de tache");
+            System.out.println("6.Assigner une tache");
             System.out.print(">");
             rep = getInt();
             sc.nextLine();
@@ -98,6 +99,7 @@ public class Main {
                 }
                 case 4 -> Affichage();
                 case 5 -> Ajout_Tache();
+                case 6 -> Assigner_tache();
                 default -> System.out.println("Veuillez enter un nombre parmis 1, 2 ou 3.");
             }
             running = user.getId_compte() != 0;
@@ -164,6 +166,7 @@ public class Main {
                     user.Modification(BDD);
                     running = false;
                 }
+
                 default -> System.out.println("Veuillez enter un nombre parmis 1, 2, 3, 4 ou 5.");
             }
         }
@@ -196,23 +199,7 @@ public class Main {
     }
 
     public static void Assigner_tache() throws SQLException{
-        task.setRef_compte(0);
         task.Affiche_All_Tache(BDD);
-        System.out.println("\n--------App Todo-List--------");
-        System.out.println("1.Tache numero : "+task.getId_tache());
-        System.out.println("2.libelle : "+task.getLibelle());
-        System.out.println("3.description : "+task.getDescription());
-        System.out.println("4.difficulte : "+task.getDifficulte());
-        System.out.println("5.date_debut : "+task.getDate_debut());
-        System.out.println("6.date_fin : "+task.getDate_fin());
-        System.out.println("7.date_butoir : "+task.getDate_butoir());
-        if(task.getRef_compte() == 0){
-            System.out.println("8.Actuellement assigner a aucun utilisateur");
-        }
-        else {
-        System.out.println("8.Actuellement assigner a l'utilisateur : "+task.getRef_compte());
-        }
-
         System.out.print("Entrer le numero de la tache a assigner : ");
         int ref_tache= sc.nextInt();
         System.out.print("Entrer le numero de l'utilisateur qui devra la realiser : ");

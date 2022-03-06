@@ -34,7 +34,7 @@ public class Task {
 
     public Task(int ref_tache,int ref_compte){
         setRef_compte(ref_compte);
-        setRef_compte(ref_tache);
+        setRef_tache(ref_tache);
     }
     public void Ajout_tache(BDD BDD) throws SQLException {
         PreparedStatement req = BDD.getCnx().prepareStatement("INSERT INTO tache(libelle,description, difficulte, date_debut, date_fin,date_butoir) VALUES (?,?,?,?,?,?)");
@@ -88,10 +88,22 @@ public class Task {
     }
 
     public void Assigner_tache(BDD BDD) throws SQLException {
-        PreparedStatement req = BDD.getCnx().prepareStatement("INSERT INTO gere(ref_tache,ref_compte) VALUES (?,?)");
+        PreparedStatement req = BDD.getCnx().prepareStatement("SELECT * FROM gere WHERE ref_tache = ?");
         req.setInt(1,ref_tache);
-        req.setInt(2,ref_compte);
-        req.executeUpdate();
+        ResultSet monResulat = req.executeQuery();
+        if (monResulat.next()){
+        PreparedStatement req1 = BDD.getCnx().prepareStatement("UPDATE gere SET ref_tache = ?, ref_compte = ? WHERE ref_tache = ?");
+        req1.setInt(1,ref_tache);
+        req1.setInt(2,ref_compte);
+            req1.setInt(3,ref_tache);
+        req1.executeUpdate();
+        }
+        else{
+            PreparedStatement req2 = BDD.getCnx().prepareStatement("INSERT INTO gere(ref_tache,ref_compte) VALUES (?,?)");
+            req2.setInt(1,ref_tache);
+            req2.setInt(2,ref_compte);
+            req2.executeUpdate();
+        }
     }
 
 
