@@ -191,13 +191,7 @@ public class Main {
     public static void Affichage() throws SQLException{
         task = new Task(user.getId_compte());
         task.Affiche(BDD);
-        System.out.println("\n--------App Todo-List--------");
-        System.out.println("1.libelle : "+task.getLibelle());
-        System.out.println("2.description : "+task.getDescription());
-        System.out.println("3.difficulte : "+task.getDifficulte());
-        System.out.println("4.date_debut : "+task.getDate_debut());
-        System.out.println("5.date_fin : "+task.getDate_fin());
-        System.out.println("6.date_butoir : "+task.getDate_butoir());
+
 
     }
 

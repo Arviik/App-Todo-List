@@ -47,39 +47,43 @@ public class Task {
         req.executeUpdate();
     }
 
-    public boolean Affiche(BDD BDD) throws SQLException {
+    public void Affiche(BDD BDD) throws SQLException {
         PreparedStatement req = BDD.getCnx().prepareStatement("SELECT * FROM tache INNER JOIN gere ON tache.id_tache = gere.ref_tache INNER JOIN compte ON gere.ref_compte = compte.id_compte WHERE ref_compte= ?");
         req.setInt(1,ref_compte);
-        ResultSet monResulat = req.executeQuery();
-        if (monResulat.next()){
-            setId_tache(monResulat.getInt(1));
-            setLibelle(monResulat.getString(2));
-            setDescription(monResulat.getString(3));
-            setDifficulte(monResulat.getInt(4));
-            setDate_debut(monResulat.getString(5));
-            setDate_fin(monResulat.getString(6));
-            setDate_butoir(monResulat.getString(7));
-            return true;
-        } else {
-            return false;
+        ResultSet monResultat = req.executeQuery();
+
+        while(monResultat.next()){
+            System.out.println("\n--------App Todo-List--------");
+            System.out.println("1.libelle : "+monResultat.getString("libelle"));
+            System.out.println("2.description : "+monResultat.getString("description"));
+            System.out.println("3.difficulte : "+ monResultat.getInt("difficulte"));
+            System.out.println("4.date_debut : "+monResultat.getString("date_debut"));
+            System.out.println("5.date_fin : "+monResultat.getString("date_fin"));
+            System.out.println("6.date_butoir : "+monResultat.getString("date_butoir"));
+            setId_tache(monResultat.getInt(1));
+            setLibelle(monResultat.getString(2));
+            setDescription(monResultat.getString(3));
+            setDifficulte(monResultat.getInt(4));
+            setDate_debut(monResultat.getString(5));
+            setDate_fin(monResultat.getString(6));
+            setDate_butoir(monResultat.getString(7));
+
         }
     }
 
-    public boolean Affiche_All_Tache(BDD BDD) throws SQLException {
+    public void Affiche_All_Tache(BDD BDD) throws SQLException {
         PreparedStatement req = BDD.getCnx().prepareStatement("SELECT * FROM tache LEFT JOIN gere ON tache.id_tache = gere.ref_tache LEFT JOIN compte ON gere.ref_compte = compte.id_compte");
-        ResultSet monResulat = req.executeQuery();
-        if (monResulat.next()){
-            setId_tache(monResulat.getInt(1));
-            setLibelle(monResulat.getString(2));
-            setDescription(monResulat.getString(3));
-            setDifficulte(monResulat.getInt(4));
-            setDate_debut(monResulat.getString(5));
-            setDate_fin(monResulat.getString(6));
-            setDate_butoir(monResulat.getString(7));
-            setRef_compte(monResulat.getInt(8));
-            return true;
-        } else {
-            return false;
+        ResultSet monResultat = req.executeQuery();
+        while(monResultat.next()){
+            System.out.println("\n--------App Todo-List--------");
+            System.out.println("0.Tache numero : "+ monResultat.getInt("id_tache"));
+            System.out.println("1.libelle : "+monResultat.getString("libelle"));
+            System.out.println("2.description : "+monResultat.getString("description"));
+            System.out.println("3.difficulte : "+ monResultat.getInt("difficulte"));
+            System.out.println("4.date_debut : "+monResultat.getString("date_debut"));
+            System.out.println("5.date_fin : "+monResultat.getString("date_fin"));
+            System.out.println("6.date_butoir : "+monResultat.getString("date_butoir"));
+            System.out.println("7.Gere par : "+ monResultat.getInt("ref_compte"));
         }
     }
 
